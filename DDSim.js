@@ -4,8 +4,8 @@ var imageCar;
 function setup() {
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
-  imageRoad = loadImage('road.png');
-  imageCar = loadImage('car.png');
+  imageRoad = loadImage('assets/road.png');
+  imageCar = loadImage('assets/car.png');
 }
 
 function draw() {
