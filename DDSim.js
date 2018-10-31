@@ -8,6 +8,21 @@ var imageCar;
 
 var hoveredPlay = false;
 
+//Definerer al tekst som Strings
+var langMenuTitle01 = "Drunk Driving";
+var langMenuTitle02 = "Simulator";
+var langMenuTitle03 = "2018";
+var langMenuPlay01 = "PLAY";
+var langMenuPlay02 = "> PLAY <"
+var langMenuCredits01 = "CREDITS";
+var langMenuCredits02 = "> CREIDITS <"
+var langGameScore = "Score: ";
+var langPauseTitle = "Game Paused";
+var langPauseResume = "Press ESCAPE to resume";
+var langPauseMenu01 = "Return to main menu";
+var langPauseMenu02 = "> Return to main menu <";
+var langGlobalVersion = "Test v1.1";
+
 function setup() {
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
@@ -24,6 +39,7 @@ function draw() {
       drawPaused();
     }
   }
+  drawVersion();
 }
 
 function drawMenu() {
@@ -33,17 +49,17 @@ function drawMenu() {
   background(80, 80, 80);
   fill(255, 210, 210);
   textSize(50);
-  text("Drunk Driving", width/2-textWidth("Drunk Driving")/2, 150);
+  text(langMenuTitle01, width/2-textWidth(langMenuTitle01)/2, 150);
   textSize(35);
   fill(210, 210, 255);
-  text("Simulator", width/2-textWidth("Simular")/2 - 50, 180);
+  text(langMenuTitle02, width/2-textWidth(langMenuTitle02)/2 - 50, 180);
   textSize(40);
   fill(210, 255, 210);
-  text("2018", width/2-textWidth("2018")/2 +80, 180);
+  text(langMenuTitle03, width/2-textWidth(langMenuTitle03)/2 +80, 180);
   
   textSize(30);
 //Tjekker om musen er over knappen
-  if(mouseX > width/2-textWidth("PLAY")/2 && (mouseX < width/2+textWidth("PLAY")/2) && mouseY > 400-30 && mouseY < 400) {
+  if(mouseX > width/2-textWidth(langMenuPlay01)/2 && (mouseX < width/2+textWidth(langMenuPlay01)/2) && mouseY > 400-30 && mouseY < 400) {
     hoveredPlay = true;
   } else {
     hoveredPlay = false;
@@ -53,11 +69,11 @@ function drawMenu() {
   if(hoveredPlay) {
     textSize(30);
     fill(255, 255, 210);
-    text("> PLAY <", width/2-textWidth("> PLAY< ")/2, 400);
+    text(langMenuPlay02, width/2-textWidth(langMenuPlay02)/2, 400);
   } else {
     textSize(25);
     fill(240, 240, 240);
-    text("PLAY", width/2-textWidth("PLAY")/2, 400);
+    text(langMenuPlay01, width/2-textWidth(langMenuPlay01)/2, 400);
   }
 }
 
@@ -88,11 +104,7 @@ function drawGame() {
 //Tegner "Score" tekst
   fill(255, 255, 255);
   textSize(25);
-  text("Score: " + score, (width/3)*2, (height/5)*1);
-//Tegner version  
-  fill(0, 255, 0);
-  textSize(15);
-  text("Test v1.0", 15, 25);
+  text(langGameScore + score, (width/3)*2, (height/5)*1);
 }
 
 function drawPaused() {
@@ -102,9 +114,16 @@ function drawPaused() {
   
   fill(255, 255, 255);
   textSize(50);
-  text("Game Paused", width/2-textWidth("Game Paused")/2, 250);
+  text(langPauseTitle, width/2-textWidth(langPauseTitle)/2, 250);
   textSize(20);
-  text("Press ESC to resume", width/2-textWidth("Press ESC to resume")/2, 280);
+  text(langPauseResume, width/2-textWidth(langPauseResume)/2, 280);
+}
+
+//Tegner version  
+function drawVersion() {
+  fill(0, 255, 0);
+  textSize(15);
+  text(langGlobalVersion, 15, 25);
 }
 
 function mouseReleased() {
