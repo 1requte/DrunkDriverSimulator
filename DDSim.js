@@ -7,6 +7,7 @@ var imageRoad;
 var imageCar;
 
 var hoveredPlay = false;
+var hoveredBack = false;
 
 //Definerer al tekst som Strings
 var langMenuTitle01 = "Drunk Driving";
@@ -117,6 +118,19 @@ function drawPaused() {
   text(langPauseTitle, width/2-textWidth(langPauseTitle)/2, 250);
   textSize(20);
   text(langPauseResume, width/2-textWidth(langPauseResume)/2, 280);
+  //Tjekker om musen er over knappen
+  if(mouseX > width/2-textWidth(langPauseMenu01)/2 && (mouseX < width/2+textWidth(langPauseMenu01)/2) && mouseY > 300-20 && mouseY < 300) {
+    hoveredBack = true;
+  } else {
+    hoveredBack = false;
+  }
+  if(!hoveredBack) {
+    text(langPauseMenu01, width/2-textWidth(langPauseMenu01)/2, 300);
+  } else {
+    textSize(25);
+    fill(200, 200, 120);
+    text(langPauseMenu02, width/2-textWidth(langPauseMenu02)/2, 300);
+  }
 }
 
 //Tegner version  
@@ -128,8 +142,12 @@ function drawVersion() {
 
 function mouseReleased() {
 //Hvis musen er over knappen, gå til spillet  
-  if(hoveredPlay == true) {
+  if(hoveredPlay == true && state == 0) {
     state = 1;
+  }
+//Hvis musen er over knappen, gå til menuen  
+  if(hoveredBack = true && state == 1 && paused == true) {
+    state = 0;
   }
 }
 
