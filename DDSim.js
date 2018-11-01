@@ -30,7 +30,7 @@ var langDeathTitle = "You crashed!";
 var langDeathScore = "Final score: ";
 var langDeathMessage = "Don't drink & drive";
 var langDeathMenu = "Press ESCAPE to return to the main menu";
-var langGlobalVersion = "v1.2.1";
+var langGlobalVersion = "v1.2.2";
 
 function setup() {
   canvas = createCanvas(800, 600);
@@ -203,6 +203,7 @@ function keyReleased() {
 }
 
 var movement = 0;
+var inverted = false;
 function move() {
   var r = random(0, 100);
   
@@ -221,14 +222,17 @@ function move() {
   if(r < 10) {
     movement = 0;
   }
+  if(r > 99.0) inverted = !inverted;
   print(r);
   
   
   if(movement == 1) {
-    x = x + 5;
+    if(!inverted) x = x + 5;
+    else x = x - 5;
     imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
   } else if(movement == 2) {
-    x = x - 5;
+    if(!inverted) x = x - 5;
+    else x = x + 5;
     imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
   }
   
