@@ -28,8 +28,9 @@ var langPauseMenu01 = "Return to main menu";
 var langPauseMenu02 = "> Return to main menu <";
 var langDeathTitle = "You crashed!";
 var langDeathScore = "Final score: ";
+var langDeathMessage = "Don't drink & drive";
 var langDeathMenu = "Press ESCAPE to return to the main menu";
-var langGlobalVersion = "Test v1.2";
+var langGlobalVersion = "v1.2.1";
 
 function setup() {
   canvas = createCanvas(800, 600);
@@ -164,6 +165,11 @@ function drawDeath() {
   fill(255, 255, 150);
   textSize(25);
   text(langDeathMenu, width/2-textWidth(langDeathMenu)/2, 500);
+  fill(255, 150, 150);
+  noStroke();
+  rect((width/5)*1, 300, (width/5)*3, 2);
+  textSize(20);
+  text(langDeathMessage, width/2-textWidth(langDeathMessage)/2, 330);
 }
 
 //Tegner version  
@@ -196,16 +202,38 @@ function keyReleased() {
   
 }
 
+var movement = 0;
 function move() {
+  var r = random(0, 100);
+  
   if(keyIsDown(RIGHT_ARROW)) {
-    x = x + 5;
-    if(x > 800) x = 800;
-    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+    movement = 1;
   } else if(keyIsDown(LEFT_ARROW)) {
+    movement = 2;
+  }
+  
+
+  if(r > 98.0) {
+    movement = 1;
+  } else if(r > 95.0) {
+    movement = 2;
+  }
+  if(r < 10) {
+    movement = 0;
+  }
+  print(r);
+  
+  
+  if(movement == 1) {
+    x = x + 5;
+    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+  } else if(movement == 2) {
     x = x - 5;
-    if(x < 10) x = 10;
     imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
   }
+  
+  if(x > 800) x = 800;
+  if(x < 10) x = 10;
   
   if(x > 330 && x < 500) {
     score = score + 5;
