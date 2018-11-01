@@ -6,6 +6,9 @@ var score = 0;
 var imageRoad;
 var imageCar;
 
+var imageRoadOffset;
+var x = 400;
+
 var hoveredPlay = false;
 var hoveredBack = false;
 
@@ -18,16 +21,21 @@ var langMenuPlay02 = "> PLAY <"
 var langMenuCredits01 = "CREDITS";
 var langMenuCredits02 = "> CREIDITS <"
 var langGameScore = "Score: ";
+var langGamePosition = "X: ";
 var langPauseTitle = "Game Paused";
 var langPauseResume = "Press ESCAPE to resume";
 var langPauseMenu01 = "Return to main menu";
 var langPauseMenu02 = "> Return to main menu <";
-var langGlobalVersion = "Test v1.1";
+var langDeathTitle = "You crashed!";
+var langDeathScore = "Final score: ";
+var langDeathMenu = "Press ESCAPE to return to the main menu";
+var langGlobalVersion = "Test v1.2";
 
 function setup() {
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
-  imageRoad = loadImage('assets/road.png');
+  imageRoad = loadImage('assets/roadWide.png');
+  imageRoadOffset = loadImage('assets/roadWide.png');
   imageCar = loadImage('assets/car.png');
 }
 
@@ -39,6 +47,9 @@ function draw() {
     if(paused) {
       drawPaused();
     }
+  }
+  else if(state == 2) {
+    drawDeath();
   }
   drawVersion();
 }
@@ -78,21 +89,27 @@ function drawMenu() {
   }
 }
 
+var offset = 0;
 function drawGame() {
 //Tegner baggrund (græsset)
   background(80, 120, 80);
-//Looper igennem halvdelen af højdens pixels (halvdelen, fordi billedet bliver indlæst 800x2 pixels af gangen)
+//Looper igennem halvdelen af højdens pixels (halvdelen, fordi billedet bliver indlæst 800x2 pixels af gangen
+  if(!paused) {
+    offset = offset + 2;
+    if(offset > 100) offset = 0;
+    move();
+  }
+//Tegner billedet 
   for (var i = 0; i < height/2; i++) {
-    var dx = width/2-(width/4/2) - i;
+    var dx = width/2-(width/2/2) - i;
     var dy = 0+i*2;
-    var dW = (width/4) + i*2;
+    var dW = (width/2) + i*2;
     var dH = 2;
     var sx = 0;
-    var sy = (0+i)/1.5;
-    var sW = 200;
+    var sy = (0+i)/1.5 - offset;
+    var sW = 400;
     var sH = 2;
-//  Tegner billedet 
-    image(imageRoad, dx, dy, dW, dH, sx, sy, sW, sH); 
+    image(imageRoadOffset, dx, dy, dW, dH, sx, sy, sW, sH); 
   }
 //Tegner himmel
   fill(100, 100, 200);
@@ -106,6 +123,9 @@ function drawGame() {
   fill(255, 255, 255);
   textSize(25);
   text(langGameScore + score, (width/3)*2, (height/5)*1);
+  fill(255, 255, 0);
+  textSize(20);
+  text(langGamePosition + x, 15, height - 40);
 }
 
 function drawPaused() {
@@ -133,6 +153,19 @@ function drawPaused() {
   }
 }
 
+function drawDeath() {
+  background(80, 0, 0);
+  fill(255, 255, 255);
+  textSize(50);
+  text(langDeathTitle, width/2-textWidth(langDeathTitle)/2, 200);
+  fill(150, 150, 150);
+  textSize(30);
+  text(langDeathScore + score, width/2-textWidth(langDeathScore + score)/2, 250);
+  fill(255, 255, 150);
+  textSize(25);
+  text(langDeathMenu, width/2-textWidth(langDeathMenu)/2, 500);
+}
+
 //Tegner version  
 function drawVersion() {
   fill(0, 255, 0);
@@ -143,6 +176,9 @@ function drawVersion() {
 function mouseReleased() {
 //Hvis musen er over knappen, gå til spillet  
   if(hoveredPlay == true && state == 0) {
+    score = 0;
+    x = 400;
+    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
     state = 1;
   }
 //Hvis musen er over knappen, gå til menuen  
@@ -154,6 +190,28 @@ function mouseReleased() {
 function keyReleased() {
 //Hvis der bliver trykket på ESCAPE, sæt boolean variablet 'paused' til det modsatte af hvad det er   
   if(keyCode == ESCAPE) {
-    paused = !paused;
+    if(state == 1) paused = !paused;
+    if(state == 2) state = 0;
+  }
+  
+}
+
+function move() {
+  if(keyIsDown(RIGHT_ARROW)) {
+    x = x + 5;
+    if(x > 800) x = 800;
+    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+  } else if(keyIsDown(LEFT_ARROW)) {
+    x = x - 5;
+    if(x < 10) x = 10;
+    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+  }
+  
+  if(x > 330 && x < 500) {
+    score = score + 5;
+  } else if(x > 80 && x < 331) {
+    score = score + 1;
+  } else {
+    state = 2;
   }
 }
