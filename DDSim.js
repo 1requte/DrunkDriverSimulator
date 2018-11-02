@@ -240,7 +240,6 @@ function mouseReleased() {
   if(hoveredPlay && state == 0) {
     score = 0;
     x = 800;
-    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
     state = 1;
   }
 //Hvis musen er over knappen, gå til menuen  
@@ -289,11 +288,9 @@ function move() {
   if(movement == 1) {
     if(!inverted) x = x + 5;
     else x = x - 5;
-    imageRoadOffset = imageRoad;
   } else if(movement == 2) {
     if(!inverted) x = x - 5;
     else x = x + 5;
-    imageRoadOffset = imageRoad;
   }
   
   //if(x > 800) x = 800;
