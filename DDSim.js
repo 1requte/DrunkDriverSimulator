@@ -8,11 +8,11 @@ var imageCar;
 var imageCity;
 var imageWheel;
 
-var imageRoadOffset;
-var x = 400;
+var x = 800;
 
 var hoveredPlay = false;
 var hoveredBack = false;
+var hoveredCredits = false;
 
 //Definerer al tekst som Strings
 var langMenuTitle01 = "Drunk Driving";
@@ -21,7 +21,7 @@ var langMenuTitle03 = "2018";
 var langMenuPlay01 = "PLAY";
 var langMenuPlay02 = "> PLAY <"
 var langMenuCredits01 = "CREDITS";
-var langMenuCredits02 = "> CREIDITS <"
+var langMenuCredits02 = "> CREDITS <"
 var langGameScore = "Score: ";
 var langGamePosition = "X: ";
 var langPauseTitle = "Game Paused";
@@ -37,8 +37,7 @@ var langGlobalVersion = "v1.3";
 function setup() {
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
-  imageRoad = loadImage("assets/roadWide.png");
-  imageRoadOffset = loadImage("assets/roadWide.png");
+  imageRoad = loadImage("assets/road.png");
   imageCar = loadImage("assets/car.png");
   imageCity = loadImage("assets/background.png");
   imageWheel = loadImage("assets/wheel.png");
@@ -55,6 +54,9 @@ function draw() {
   }
   else if(state == 2) {
     drawDeath();
+  }
+  else if(state == 3) {
+    drawCredits();
   }
   drawVersion();
 }
@@ -82,6 +84,12 @@ function drawMenu() {
     hoveredPlay = false;
   }
   
+  if(mouseX > width/2-textWidth(langMenuCredits01)/2 && (mouseX < width/2+textWidth(langMenuCredits01)/2) && mouseY > 500-30 && mouseY < 500) {
+    hoveredCredits = true;
+  } else {
+    hoveredCredits = false;
+  }
+  
 //Hvis musen er over knappen, gør teksten fancy  
   if(hoveredPlay) {
     textSize(30);
@@ -91,6 +99,16 @@ function drawMenu() {
     textSize(25);
     fill(240, 240, 240);
     text(langMenuPlay01, width/2-textWidth(langMenuPlay01)/2, 400);
+  }
+  
+  if(hoveredCredits) {
+    textSize(30);
+    fill(255, 255, 210);
+    text(langMenuCredits02, width/2-textWidth(langMenuCredits02)/2, 500);
+  } else {
+    textSize(25);
+    fill(240, 240, 240);
+    text(langMenuCredits01, width/2-textWidth(langMenuCredits01)/2, 500);
   }
 }
 
@@ -186,6 +204,35 @@ function drawVersion() {
   text(langGlobalVersion, 15, 25);
 }
 
+function drawCredits() {  background(80, 80, 80);
+  fill(255, 210, 210);
+  textSize(50);
+  text(langMenuTitle01, width/2-textWidth(langMenuTitle01)/2, 110);
+  textSize(35);
+  fill(210, 210, 255);
+  text(langMenuTitle02, width/2-textWidth(langMenuTitle02)/2 - 50, 140);
+  textSize(40);
+  fill(210, 255, 210);
+  text(langMenuTitle03, width/2-textWidth(langMenuTitle03)/2 +80, 140);
+  
+  fill(210, 210, 210);
+  textSize(30);
+  text("Programming", 50, 200);
+  textSize(20);
+  text("Emil", 50, 230);
+  textSize(30);
+  text("Graphics and Textures", 50, 300);
+  textSize(20);
+  text("Kevin", 50, 330);
+  text("Emil", 50, 350);
+  textSize(30);
+  text("Webdesign", 50, 400);
+  textSize(20);
+  text("William", 50, 430);
+  textSize(20);
+  text("< Press ESCAPE to return >", width/2-textWidth("< Press ESCAPE to return >")/2, 530);
+}
+
 function mouseReleased() {
 //Hvis musen er over knappen, gå til spillet  
   if(hoveredPlay && state == 0) {
@@ -198,6 +245,10 @@ function mouseReleased() {
   if(hoveredBack && state == 1 && paused == true) {
     state = 0;
   }
+  
+  if(hoveredCredits && state == 0) {
+    state = 3;
+  }
 }
 
 function keyReleased() {
@@ -205,6 +256,7 @@ function keyReleased() {
   if(keyCode == ESCAPE) {
     if(state == 1) paused = !paused;
     if(state == 2) state = 0;
+    if(state == 3) state = 0;
   }
   
 }
