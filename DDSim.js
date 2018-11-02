@@ -123,7 +123,9 @@ function drawGame() {
     move();
   }
 //Tegner billedet 
-  image(imageCity, 0, 78-score/500, imageCity.width/4, imageCity.height/4+100);
+  var cityPosition = 78-score/500);
+  if(cityPosition < 35) cityPosition = 35;
+  image(imageCity, 0, cityPosition, imageCity.width/4, imageCity.height/4+100);
   for (var i = 0; i < 800; i++) {
     var dx = 0-i*5;
     var dy = (height/2) + i*2;
