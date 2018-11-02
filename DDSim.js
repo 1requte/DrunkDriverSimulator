@@ -149,9 +149,9 @@ function drawGame() {
   fill(255, 255, 255);
   textSize(25);
   text(langGameScore + score, (width/3)*2, (height/5)*1);
-  fill(255, 255, 0);
-  textSize(20);
-  text(langGamePosition + x, 15, height - 40);
+  //fill(255, 255, 0);
+  //textSize(20);
+  //text(langGamePosition + x, 15, height - 40);
 }
 
 function drawPaused() {
