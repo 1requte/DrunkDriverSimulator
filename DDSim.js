@@ -35,12 +35,12 @@ var langDeathMenu = "Press ESCAPE to return to the main menu";
 var langGlobalVersion = "v1.3";
 
 function setup() {
-  canvas = createCanvas(800, 600);
-//Indlæser billedfilerne 
   imageRoad = loadImage("assets/road.png");
   imageCar = loadImage("assets/car.png");
   imageCity = loadImage("assets/background.png");
   imageWheel = loadImage("assets/wheel.png");
+  canvas = createCanvas(800, 600);
+//Indlæser billedfilerne 
 }
 
 function draw() {
@@ -130,7 +130,7 @@ function drawGame() {
     cityPosition = 35;
   }
   
-  image(imageCity, 0, cityPosition, 800, 270);
+  image(imageCity, 0, cityPosition);
   for (var i = 0; i < 800; i++) {
     var dx = 0-i*5;
     var dy = (height/2) + i*2;
