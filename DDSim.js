@@ -5,6 +5,8 @@ var paused = false;
 var score = 0;
 var imageRoad;
 var imageCar;
+var imageCity;
+var imageWheel;
 
 var imageRoadOffset;
 var x = 400;
@@ -35,9 +37,11 @@ var langGlobalVersion = "v1.2.2";
 function setup() {
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
-  imageRoad = loadImage('assets/roadWide.png');
-  imageRoadOffset = loadImage('assets/roadWide.png');
-  imageCar = loadImage('assets/car.png');
+  imageRoad = loadImage("assets/roadWide.png");
+  imageRoadOffset = loadImage("assets/roadWide.png");
+  imageCar = loadImage("assets/car.png");
+  imageCity = loadImage("assets/background.png");
+  imageWheel = loadImage("assets/wheel.png");
 }
 
 function draw() {
@@ -92,34 +96,37 @@ function drawMenu() {
 
 var offset = 0;
 function drawGame() {
-//Tegner baggrund (græsset)
-  background(80, 120, 80);
+//Tegner baggrund
+  background(0, 0, 0);
 //Looper igennem halvdelen af højdens pixels (halvdelen, fordi billedet bliver indlæst 800x2 pixels af gangen
   if(!paused) {
     offset = offset + 2;
-    if(offset > 100) offset = 0;
+    if(offset > 100) offset = -200;
     move();
   }
 //Tegner billedet 
   for (var i = 0; i < height/2; i++) {
-    var dx = width/2-(width/2/2) - i;
+    var dx = width/2-(width/2/2) - i*2;
     var dy = 0+i*2;
-    var dW = (width/2) + i*2;
+    var dW = (width/2) + i*4;
     var dH = 2;
     var sx = 0;
     var sy = (0+i)/1.5 - offset;
     var sW = 400;
     var sH = 2;
-    image(imageRoadOffset, dx, dy, dW, dH, sx, sy, sW, sH); 
+    image(imageRoadOffset, dx, dy, dW, dH, sx, sy, sW, sH);
   }
 //Tegner himmel
   fill(100, 100, 200);
   rect(0, 0, width, height / 2);
+  image(imageCity, 0, 78, imageCity.width/4, imageCity.height/3);
 //Tegner horisont  
   fill(0, 0, 0);
   rect(0, (height / 2) - 2, width, 4);
 //Tegner bil overlay
-  image(imageCar, 0, 0);
+  image(imageCar, 0, 0, 800, 600);
+  image(imageWheel, 60, 400, imageWheel.width/4, imageWheel.height/4);
+  
 //Tegner "Score" tekst
   fill(255, 255, 255);
   textSize(25);
@@ -223,17 +230,16 @@ function move() {
     movement = 0;
   }
   if(r > 99.0) inverted = !inverted;
-  print(r);
   
   
   if(movement == 1) {
     if(!inverted) x = x + 5;
     else x = x - 5;
-    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+    imageRoadOffset = imageRoad;
   } else if(movement == 2) {
     if(!inverted) x = x - 5;
     else x = x + 5;
-    imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
+    imageRoadOffset = imageRoad;
   }
   
   if(x > 800) x = 800;
