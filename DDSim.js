@@ -35,13 +35,16 @@ var langDeathMenu = "Press ESCAPE to return to the main menu";
 var langGlobalVersion = "v1.3";
 
 function setup() {
-  imageRoad = loadImage("assets/road.png");
-  imageCar = loadImage("assets/car.png");
-  imageCity = loadImage("assets/background.png");
-  imageWheel = loadImage("assets/wheel.png");
   canvas = createCanvas(800, 600);
 //Indlæser billedfilerne 
 }
+
+function preload() {
+    imageRoad = loadImage("assets/road.png");
+    imageCar = loadImage("assets/car.png");
+    imageCity = loadImage("assets/background.png");
+    imageWheel = loadImage("assets/wheel.png");
+  }
 
 function draw() {
 //Vælger om den skal tegne menuen eller spillet  
