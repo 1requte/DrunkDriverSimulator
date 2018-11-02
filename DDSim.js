@@ -32,7 +32,7 @@ var langDeathTitle = "You crashed!";
 var langDeathScore = "Final score: ";
 var langDeathMessage = "Don't drink & drive";
 var langDeathMenu = "Press ESCAPE to return to the main menu";
-var langGlobalVersion = "v1.2.2";
+var langGlobalVersion = "v1.3";
 
 function setup() {
   canvas = createCanvas(800, 600);
@@ -94,35 +94,35 @@ function drawMenu() {
   }
 }
 
-var offset = 0;
+var offset = -1000+800;
 function drawGame() {
 //Tegner baggrund
   background(0, 0, 0);
 //Looper igennem halvdelen af højdens pixels (halvdelen, fordi billedet bliver indlæst 800x2 pixels af gangen
   if(!paused) {
-    offset = offset + 2;
-    if(offset > 100) offset = -200;
+    offset = offset + 10;
+    if(offset > 0) offset = -1000+800;
     move();
   }
 //Tegner billedet 
-  for (var i = 0; i < height/2; i++) {
-    var dx = width/2-(width/2/2) - i*2;
-    var dy = 0+i*2;
-    var dW = (width/2) + i*4;
+  image(imageCity, 0, 78-score/500, imageCity.width/4, imageCity.height/4+100);
+  for (var i = 0; i < 800; i++) {
+    var dx = 0-i*5;
+    var dy = (height/2) + i*2;
+    var dW = 800+i*10;
     var dH = 2;
-    var sx = 0;
-    var sy = (0+i)/1.5 - offset;
-    var sW = 400;
-    var sH = 2;
-    image(imageRoadOffset, dx, dy, dW, dH, sx, sy, sW, sH);
+    var sx = 0 + x;
+    var sy = i*8-offset;
+    var sW = 800;
+    var sH = 8;
+    image(imageRoad, dx, dy, dW, dH, sx, sy, sW, sH);
   }
 //Tegner himmel
-  fill(100, 100, 200);
-  rect(0, 0, width, height / 2);
-  image(imageCity, 0, 78, imageCity.width/4, imageCity.height/3);
+  //fill(100, 100, 200);
+  //rect(0, 0, width, height / 2);
 //Tegner horisont  
-  fill(0, 0, 0);
-  rect(0, (height / 2) - 2, width, 4);
+  //fill(0, 0, 0);
+  //rect(0, (height / 2) - 2, width, 4);
 //Tegner bil overlay
   image(imageCar, 0, 0, 800, 600);
   image(imageWheel, 60, 400, imageWheel.width/4, imageWheel.height/4);
@@ -147,7 +147,7 @@ function drawPaused() {
   textSize(20);
   text(langPauseResume, width/2-textWidth(langPauseResume)/2, 280);
   //Tjekker om musen er over knappen
-  if(mouseX > width/2-textWidth(langPauseMenu01)/2 && (mouseX < width/2+textWidth(langPauseMenu01)/2) && mouseY > 300-20 && mouseY < 300) {
+  if(mouseX > width/2-textWidth(langPauseMenu01)/2 && (mouseX < width/2+textWidth(langPauseMenu01)/2) && mouseY > 280 && mouseY < 300) {
     hoveredBack = true;
   } else {
     hoveredBack = false;
@@ -188,14 +188,14 @@ function drawVersion() {
 
 function mouseReleased() {
 //Hvis musen er over knappen, gå til spillet  
-  if(hoveredPlay == true && state == 0) {
+  if(hoveredPlay && state == 0) {
     score = 0;
-    x = 400;
+    x = 800;
     imageRoadOffset = imageRoad.get(0+x, 0, 1000, 400);
     state = 1;
   }
 //Hvis musen er over knappen, gå til menuen  
-  if(hoveredBack = true && state == 1 && paused == true) {
+  if(hoveredBack && state == 1 && paused == true) {
     state = 0;
   }
 }
@@ -242,12 +242,12 @@ function move() {
     imageRoadOffset = imageRoad;
   }
   
-  if(x > 800) x = 800;
-  if(x < 10) x = 10;
+  //if(x > 800) x = 800;
+  //if(x < 10) x = 10;
   
-  if(x > 330 && x < 500) {
+  if(x > 700 && x < 1100) {
     score = score + 5;
-  } else if(x > 80 && x < 331) {
+  } else if(x > 80 && x < 701) {
     score = score + 1;
   } else {
     state = 2;
