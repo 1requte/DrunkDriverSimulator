@@ -45,9 +45,7 @@ function setup() {
 
 function draw() {
 //Vælger om den skal tegne menuen eller spillet  
-  if(state == 0) {
-    drawMenu();
-  }
+  if(state == 0) drawMenu();
   else if(state == 1) {
     drawGame();
     if(paused) {
@@ -126,11 +124,8 @@ function drawGame() {
   }
 //Tegner billedet 
   var cityPosition = 78-score/500;
-  if(cityPosition < 35) {
-    cityPosition = 35;
-  }
-  
-  image(imageCity, 0, cityPosition, 800, 270);
+  if(cityPosition < 35) cityPosition = 35;
+  image(imageCity, 0, cityPosition, 3332/4, 678/4+100);
   for (var i = 0; i < 800; i++) {
     var dx = 0-i*5;
     var dy = (height/2) + i*2;
@@ -248,7 +243,7 @@ function mouseReleased() {
     state = 1;
   }
 //Hvis musen er over knappen, gå til menuen  
-  if(hoveredBack && state == 1 && paused) {
+  if(hoveredBack && state == 1 && paused == true) {
     state = 0;
   }
   
@@ -260,15 +255,9 @@ function mouseReleased() {
 function keyReleased() {
 //Hvis der bliver trykket på ESCAPE, sæt boolean variablet 'paused' til det modsatte af hvad det er   
   if(keyCode == ESCAPE) {
-    if(state == 1) {
-      paused = !paused;
-    }
-    if(state == 2) {
-      state = 0;
-    }
-    if(state == 3) {
-      state = 0;
-    }
+    if(state == 1) paused = !paused;
+    if(state == 2) state = 0;
+    if(state == 3) state = 0;
   }
   
 }
@@ -293,9 +282,7 @@ function move() {
   if(r < 10) {
     movement = 0;
   }
-  if(r > 99.0) {
-    inverted = !inverted;
-  }
+  if(r > 99.0) inverted = !inverted;
   
   
   if(movement == 1) {
